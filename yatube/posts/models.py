@@ -11,11 +11,16 @@ class Group(models.Model):
     )
     slug = models.SlugField(
         unique=True,
-        max_length=200
+        max_length=200,
+        verbose_name='Идентификатор группы'
     )
     description = models.TextField(
         verbose_name='Описание группы'
     )
+
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
     def __str__(self):
         return self.title
@@ -46,24 +51,18 @@ class Post(models.Model):
         help_text='Группа, к которой будет относиться пост'
     )
     image = models.ImageField(
-        'Картинка',
+        verbose_name='Картинка',
         upload_to='posts/',
         blank=True
-        # Аргумент upload_to указывает директорию,
-        # в которую будут загружаться пользовательские файлы.
-        # относительно адреса, указанного в settings.py в MEDIA_ROOT:
-        # в нём устанавливают полный путь к директории,
-        # куда будут загружаться файлы пользователей:
-        # обычно её называют media/.
     )
-
-    def __str__(self):
-        return self.text[:15]
 
     class Meta:
         ordering = ['-pub_date']
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
+
+    def __str__(self):
+        return self.text[:15]
 
 
 class Comment(models.Model):
@@ -88,13 +87,13 @@ class Comment(models.Model):
         verbose_name='Дата и время публикации комментария'
     )
 
-    def __str__(self):
-        return self.text
-
     class Meta:
         ordering = ['-created']
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        return self.text
 
 
 class Follow(models.Model):

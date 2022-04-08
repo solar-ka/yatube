@@ -1,19 +1,15 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CommentForm, PostForm
-from .models import Comment, Group, Post, User, Follow
-
-NUM_OF_POSTS_ON_PAGE = 10
+from .models import Comment, Follow, Group, Post, User
+from .utils import paginate
 
 
 def index(request):
     template = 'posts/index.html'
     posts = Post.objects.all()
-    paginator = Paginator(posts, NUM_OF_POSTS_ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate(posts, request)
     context = {
         'page_obj': page_obj,
     }
@@ -24,9 +20,7 @@ def group_posts(request, slug):
     template = 'posts/group_list.html'
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.all()
-    paginator = Paginator(posts, NUM_OF_POSTS_ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate(posts, request)
     context = {
         'group': group,
         'page_obj': page_obj,
@@ -38,10 +32,8 @@ def profile(request, username):
     template = 'posts/profile.html'
     author = get_object_or_404(User, username=username)
     posts = author.posts.all()
-    paginator = Paginator(posts, NUM_OF_POSTS_ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    posts_count = paginator.count
+    page_obj = paginate(posts, request)
+    posts_count = posts.count()
     user = request.user
     if user.is_authenticated and user != author:
         following = Follow.objects.filter(
@@ -128,9 +120,7 @@ def follow_index(request):
     template = 'posts/follow.html'
     user = request.user
     posts = Post.objects.filter(author__following__user=user)
-    paginator = Paginator(posts, NUM_OF_POSTS_ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate(posts, request)
     context = {
         'page_obj': page_obj,
     }
