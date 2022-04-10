@@ -5,7 +5,6 @@ from django.test import Client, TestCase
 
 class StaticURLTests(TestCase):
     def setUp(self):
-        # Создаём экземпляр клиента. Он неавторизован.
         self.guest_client = Client()
 
     def test_about_exists(self):
@@ -21,7 +20,6 @@ class StaticURLTests(TestCase):
 
     def test_about_uses_correct_template(self):
         """URL-адрес about использует соответствующий шаблон."""
-        # Шаблоны по адресам
         url_templates_names = {
             '/about/author/': 'about/author.html',
             '/about/tech/': 'about/tech.html',

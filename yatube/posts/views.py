@@ -8,7 +8,7 @@ from .utils import paginate
 
 def index(request):
     template = 'posts/index.html'
-    posts = Post.objects.all()
+    posts = Post.objects.select_related('author').all()
     page_obj = paginate(posts, request)
     context = {
         'page_obj': page_obj,
@@ -19,7 +19,7 @@ def index(request):
 def group_posts(request, slug):
     template = 'posts/group_list.html'
     group = get_object_or_404(Group, slug=slug)
-    posts = group.posts.all()
+    posts = Post.objects.select_related('group').filter(group=group)
     page_obj = paginate(posts, request)
     context = {
         'group': group,
@@ -31,7 +31,7 @@ def group_posts(request, slug):
 def profile(request, username):
     template = 'posts/profile.html'
     author = get_object_or_404(User, username=username)
-    posts = author.posts.all()
+    posts = Post.objects.select_related('author').filter(author=author)
     page_obj = paginate(posts, request)
     posts_count = posts.count()
     user = request.user
