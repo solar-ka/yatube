@@ -1,5 +1,6 @@
 {% load thumbnail %}
 <style>p {text-indent: 30px;}</style>
+      <div class ="container py-3">
         <article>
           <ul>
             <li>
@@ -13,36 +14,40 @@
                   {{ post.group.title }}
                 </a> 
               </li>
-            {% endif %}              
-            <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
-            
+            {% endif %}                     
             <li>
-              Понравилось: {{ post.num_likes }}
+              Понравилось: {{ post.likes.count }}
               {% if not user.is_authenticated %}
                 💙
               {% else %}
                 <a href="{% url 'posts:post_like' post.id %}" style="text-decoration: none;"> 💙 </a>
               {% endif %}
             </li>
-
+            <li>
+              Комментариев: {{ post.comments.count }}
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
           </ul>
-          {% if post.image|is_portrait %}
-          
-            {% thumbnail post.image "300x450" crop="center" upscale=True as im %}
-              <img src="{{ im.url }}">
-            {% endthumbnail %}
-          
-        {% else %}
-          
-            {% thumbnail post.image "450x300" crop="center" upscale=True as im %}
-              <img src="{{ im.url }}">
-            {% endthumbnail %}
-          
-        {% endif %}
-          <p align="justify">
+        </article>
+        <article style="text-align: center;">
+          {% if post.image %}
+            <a href="{% url 'posts:post_detail' post.id %}" >
+              {% thumbnail post.image "1024x1024" upscale=True  as im %}
+                {% if post.image|is_portrait %}
+                  <img src="{{ im.url }}" width="40%" >
+                {% else %}
+                  <img src="{{ im.url }}" width="80%">
+                {% endif %}
+              {% endthumbnail %}
+            </a>
+          {% endif %}
+          <p class ="pt-3 px-3" align="justify">
             {{ post.text }}
           </p>
           <a href="{% url 'posts:post_detail' post.id %}">подробная информация</a>
           <br>
           {% if not forloop.last %}<hr>{% endif %}
         </article>
+      </div>

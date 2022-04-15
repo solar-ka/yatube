@@ -1,16 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import CommentForm, PostForm, GroupForm
+from .forms import CommentForm, GroupForm, PostForm
 from .models import Comment, Follow, Group, Like, Post, User
-from .utils import paginate
+from .utils import annotate, paginate
 
 
 def index(request):
     template = 'posts/index.html'
     posts = Post.objects.select_related('author').all()
-    posts = posts.annotate(num_likes=Count('likes')).all()
     page_obj = paginate(posts, request)
     context = {
         'page_obj': page_obj,
@@ -22,7 +20,6 @@ def group_posts(request, slug):
     template = 'posts/group_list.html'
     group = get_object_or_404(Group, slug=slug)
     posts = Post.objects.select_related('group').filter(group=group)
-    posts = posts.annotate(num_likes=Count('likes')).all()
     page_obj = paginate(posts, request)
     context = {
         'group': group,
@@ -35,7 +32,6 @@ def profile(request, username):
     template = 'posts/profile.html'
     author = get_object_or_404(User, username=username)
     posts = Post.objects.select_related('author').filter(author=author)
-    posts = posts.annotate(num_likes=Count('likes')).all()
     page_obj = paginate(posts, request)
     posts_count = posts.count()
     user = request.user
@@ -143,7 +139,6 @@ def follow_index(request):
     template = 'posts/follow.html'
     user = request.user
     posts = Post.objects.filter(author__following__user=user)
-    posts = posts.annotate(num_likes=Count('likes')).all()
     page_obj = paginate(posts, request)
     context = {
         'page_obj': page_obj,
@@ -152,9 +147,9 @@ def follow_index(request):
 
 def most_popular_index(request):
     template = 'posts/most_popular_index.html'
-    posts = Post.objects.all().annotate(
-        num_likes=Count('likes')
-    ).order_by('-num_likes', '-pub_date')
+    posts = Post.objects.all()
+    posts = annotate(posts)
+    posts = posts.order_by('-num_likes', '-pub_date')
     page_obj = paginate(posts, request)
     context = {
         'page_obj': page_obj,
@@ -166,7 +161,6 @@ def like_index(request):
     template = 'posts/like.html'
     user = request.user
     posts = Post.objects.filter(likes__user=user)
-    posts = posts.annotate(num_likes=Count('likes')).all()
     page_obj = paginate(posts, request)
     context = {
         'page_obj': page_obj,

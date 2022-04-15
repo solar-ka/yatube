@@ -1,9 +1,12 @@
 {% load static %}
+<head>
+  <link rel="stylesheet" href="{% static 'css/header.css' %}" type="text/css">
+</head>
     <header>
       <nav class="navbar sticky-top navbar-light"
-        style="background-color: lightskyblue">
+        style="background-color: #bedfff">
         <div class="container">
-          <a class="navbar-brand" href="{% url 'posts:index' %}">
+          <a class="navbar-brand kek" href="{% url 'posts:index' %}">
             <img src="{% static 'img/logo.png' %}"
               width="30"
               height="30"
@@ -15,48 +18,47 @@
           {% with request.resolver_match.view_name as view_name %}
             <li class="nav-item">
               <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}" 
-                href="{% url 'about:author' %}">
+                href="{% url 'about:author' %}" style="color:black">
                 Об авторе
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}" 
-                href="{% url 'about:tech' %}">
+                href="{% url 'about:tech' %}" style="color:black">
                 Технологии
               </a>
             </li>
             {% if user.is_authenticated %}
+
             <li class="nav-item">
               <a class="nav-link {% if view_name  == 'posts:post_create' %}active{% endif %}" 
-                href="{% url 'posts:post_create' %}">
+                href="{% url 'posts:post_create' %}" style="color:black">
                 Новая запись
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link {% if view_name  == 'posts:group_create' %}active{% endif %}" 
-                href="{% url 'posts:group_create' %}">
+                href="{% url 'posts:group_create' %}"  style="color:black">
                 Основать группу
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link link-light {% if view_name  == 'users:password_change' %}active{% endif %}"
+            
+            <div class=" dropdown nav-item">
+              <button class="nav-link dropbtn">
+                👤 <span style="color:red"> {{ user.username }}</span>
+              </button>
+              <div class="dropdown-content">
+                <a class="nav-link link-light"
                 href="{% url 'users:password_change' %}">
-                Изменить пароль
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link link-light {% if view_name  == 'users:logout' %}active{% endif %}" 
+                  Изменить пароль
+                </a>
+                <a class="nav-link link-light" 
                 href="{% url 'users:logout' %}">
-                Выйти
-              </a>
-            </li>
-            <li class="nav-item">
-              {% url 'posts:profile' user.username  as profile_url %}
-              <a class="nav-link link-light {% if request.path == profile_url%}active{% endif %}" 
-                href="{% url 'posts:profile' user.username %}">
-              Пользователь: {{ user.username }}
-              </a>
-            </li>
+                  Выйти
+                </a>
+              </div>
+            </div>
+                
             {% else %}
             <li class="nav-item">
               <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}" 
