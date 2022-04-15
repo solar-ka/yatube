@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Самые популярные посты{% endblock %}
+{% block content %}
+  {% include 'posts/includes/switcher.html' %}
+        <h1> Посты, набравшие больше всего лайков</h1>
+    {% for post in page_obj %}
+      {% include 'posts/includes/for_post.html' %}
+    {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
+{% endblock %}

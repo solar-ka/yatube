@@ -1,0 +1,23 @@
+{% extends "base_form.html" %}
+  {% block title %}
+    {% if is_edit %}
+      Редактирование группы
+    {% else %}
+      Создание новой группы
+    {% endif %}  
+  {% endblock %}
+  {% block card_header %}
+      {% if is_edit %}
+          Редактировать группу
+      {% else %}
+          Новая группа
+      {% endif %} 
+  {% endblock %}
+  {% block button_name %}
+                {% if is_edit %}
+                  Сохранить
+                {% else %}
+                  Добавить
+                {% endif %} 
+  {% endblock %}
+{% load user_filters %}

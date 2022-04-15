@@ -11,14 +11,21 @@ SECRET_KEY = 'k=ox9-8=hh5$)9v=y*oqw@+ad6*r5t@*kv!5x=b#se7x+!4q5m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+#EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+#EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'good.yatube@gmail.com'
+EMAIL_HOST_PASSWORD = 'asdfgh/123456'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '[::1]',
     'testserver',
+    'www.solaka.pythonanywhere.com',
+    'solarka.pythonanywhere.com',
 ]
 
 INSTALLED_APPS = [

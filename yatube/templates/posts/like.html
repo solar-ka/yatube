@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Любимые посты{% endblock %}
+{% block content %}
+  {% include 'posts/includes/switcher.html' %}
+        <h1> Ваши любимые посты </h1>
+    {% if not page_obj %}
+        <p> У вас пока нет понравившихся постов. <br> 
+            Если вы хотите отметить, что пост вам понравился, перейдите на его страницу и нажмите на значок сердечка. 
+        </p>
+    {% endif%}
+    {% for post in page_obj %}
+      {% include 'posts/includes/for_post.html' %}
+    {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
+{% endblock %}

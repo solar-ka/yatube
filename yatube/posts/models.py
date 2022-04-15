@@ -12,10 +12,19 @@ class Group(models.Model):
     slug = models.SlugField(
         unique=True,
         max_length=200,
-        verbose_name='Идентификатор группы'
+        verbose_name='Желаемая ссылка на группу',
+        help_text='Например, для группы любителей сыра это может быть <b>cheese</b>. <br>'
+        ' Полная ссылка будет выглядеть так: https://solarka.pythonanywhere.com/group/<b>cheese</b>/'
     )
     description = models.TextField(
         verbose_name='Описание группы'
+    )
+    creator = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='groups_creator',
+        verbose_name='Создатель группы',
     )
 
     class Meta:
@@ -117,5 +126,30 @@ class Follow(models.Model):
             models.UniqueConstraint(
                 fields=['user', 'author'],
                 name='unique_follow'
+            )
+        ]
+
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='liker',
+        verbose_name='Пользователь, который лайкает'
+    )
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='likes',
+        verbose_name='Пост, который лайкают'
+    )
+
+    class Meta:
+        verbose_name = 'Лайк'
+        verbose_name_plural = 'Лайки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'post'],
+                name='unique_like'
             )
         ]

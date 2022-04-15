@@ -4,9 +4,23 @@
         <h1>{{ group.title }}</h1>
         <p>
           {{group.description}}
+          {% if user.is_authenticated %}
+            <a class="btn btn-lg btn-primary"
+                href="{% url 'posts:post_create'%}"
+                role="button"
+                style="font-size: 16px;"
+                >
+                Опубликовать новый пост   
+            </a>
+          {% endif%}
+        <hr>
         </p>
+  {% if not page_obj%}
+      В данной группе пока нет постов. <br>
+      Ваш может стать первым!
+  {% endif %}
   {% for post in page_obj %}
-  {% include 'posts/includes/for_post.html' %}
+    {% include 'posts/includes/for_post.html' %}
   {% endfor %}
   {% include 'posts/includes/paginator.html' %}
 {% endblock %}
