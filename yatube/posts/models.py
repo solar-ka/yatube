@@ -14,7 +14,7 @@ class Group(models.Model):
         max_length=200,
         verbose_name='Желаемая ссылка на группу',
         help_text='Например, для группы любителей сыра это может быть <b>cheese</b>. <br>'
-        ' Полная ссылка будет выглядеть так: https://solarka.pythonanywhere.com/group/<b>cheese</b>/'
+        ' Полная ссылка будет выглядеть так: https://solarka.pythonanywhere.com/group/<b>cheese</b>/',
     )
     description = models.TextField(
         verbose_name='Описание группы'

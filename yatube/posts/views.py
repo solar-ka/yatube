@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView
 
 from .forms import CommentForm, GroupForm, PostForm
 from .models import Comment, Follow, Group, Like, Post, User
@@ -205,3 +207,37 @@ def post_unlike(request, post_id):
         like = Like.objects.get(user=user, post=post)
         like.delete()
     return redirect('posts:post_detail', post_id=post_id)
+
+
+
+def search_results(request):
+    template = 'posts/search_results.html'
+    query = request.GET.get('q')
+    data_type = request.GET.get('type', 'posts')
+    posts=[]
+    authors=[]
+    if data_type == 'authors':
+        authors = User.objects.filter(
+            Q(username__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query)
+        )
+        page_obj = paginate(authors, request)
+        search_authors = True
+        search_posts = False
+    elif data_type == 'posts':   
+        posts = Post.objects.filter(
+            text__icontains=query
+        )
+        page_obj = paginate(posts, request)
+        search_authors = False
+        search_posts = True
+    else:
+        search_authors = False
+        search_posts = False
+  
+    context = {
+        'page_obj': page_obj,
+        'query': query,
+        'search_authors': search_authors,
+        'search_posts': search_posts,
+    }
+    return render(request, template, context)

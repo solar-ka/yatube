@@ -1,5 +1,6 @@
 from django.urls import path
 
+
 from . import views
 
 app_name = 'posts'
@@ -40,4 +41,6 @@ urlpatterns = [
         views.post_unlike,
         name='post_unlike'
     ),
+   path('search/', views.search_results, name='search_results'),
+
 ]

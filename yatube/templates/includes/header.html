@@ -14,6 +14,13 @@
               alt="">
             <span style="color:red">Ya</span>tube
           </a>
+          <form action="{% url 'posts:search_results'%}" method="get">
+            <input name="q" type="text" placeholder="Найти пост..." required>
+            <button type="submit" class="btn btn-primary">
+              Искать
+            </button>
+
+          </form>
           <ul class="nav nav-pills">
           {% with request.resolver_match.view_name as view_name %}
             <li class="nav-item">

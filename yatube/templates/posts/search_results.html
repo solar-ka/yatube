@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Результаты поиска {% endblock %}
+{% block content %}
+
+  <h1> Результаты поиска по запросу <i> "{{query}}" </i>: </h1>   
+  {% include 'posts/includes/switcher_search.html' %}
+    {% if not page_obj %}
+      <p> По вашему запросу ничего не найдено </p>
+    {% endif %}
+
+  {% if search_authors %}
+
+    <ul>
+      {% for author in page_obj %}
+        <li>
+          Псевдоним автора:  
+          <a href="{% url 'posts:profile' author.username %}">
+            {{ author.username }}
+          </a> 
+          {% if author.get_full_name %}
+            , Имя:
+            <a href="{% url 'posts:profile' author.username %}">
+              {{ author.get_full_name }}
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    {% if search_posts %}
+      {% for post in page_obj %}
+        {% include 'posts/includes/for_post.html' %}
+      {% endfor %}
+      {% include 'posts/includes/paginator.html' %}
+    {% endif %}
+
+  
+{% endblock %}
