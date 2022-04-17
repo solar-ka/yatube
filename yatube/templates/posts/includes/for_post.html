@@ -20,8 +20,12 @@
               {% if not user.is_authenticated %}
                 💙
               {% else %}
-                <a href="{% url 'posts:post_like' post.id %}" style="text-decoration: none;"> 💙 </a>
-              {% endif %}
+              {% if not post.is_like %}
+              <a href="{% url 'posts:post_like' post.id %}" style="text-decoration: none;"> 🤍 </a>
+            {% else %}
+              <a href="{% url 'posts:post_unlike' post.id %}" style="text-decoration: none;"> ❤ </a>
+            {% endif %}
+            {% endif %}
             </li>
             <li>
               Комментариев: {{ post.comments.count }}
