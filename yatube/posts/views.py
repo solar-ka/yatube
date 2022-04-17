@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CommentForm, GroupForm, PostForm
@@ -202,6 +203,25 @@ def post_like(request, post_id):
     if not now_liker:
         Like.objects.create(user=user, post=post)
     return redirect('posts:post_detail', post_id=post_id)
+
+@login_required
+def like(request, post_id):
+    user = request.user
+    post = get_object_or_404(Post, id=post_id)
+    now_liker = Like.objects.filter(user=user, post=post).exists()
+    if not now_liker:
+        Like.objects.create(user=user, post=post)
+    return JsonResponse(Like.objects.filter(post=post).count(), safe=False)
+
+@login_required
+def unlike(request, post_id):
+    user = request.user
+    post = get_object_or_404(Post, id=post_id)
+    now_liker = Like.objects.filter(user=user, post=post).exists()
+    if now_liker:
+        like = Like.objects.get(user=user, post=post)
+        like.delete()
+    return JsonResponse(Like.objects.filter(post=post).count(), safe=False)
 
 @login_required
 def post_unlike(request, post_id):

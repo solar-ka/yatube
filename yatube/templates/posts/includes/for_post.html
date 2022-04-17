@@ -16,15 +16,20 @@
               </li>
             {% endif %}                     
             <li>
-              Понравилось: {{ post.likes.count }}
+              Понравилось: 
+              <div id="like_{{post.id}}">
+                {{ post.likes.count }}
+              </div>
               {% if not user.is_authenticated %}
                 💙
               {% else %}
-              {% if not post.is_like %}
-              <a href="{% url 'posts:post_like' post.id %}" style="text-decoration: none;"> 🤍 </a>
-            {% else %}
-              <a href="{% url 'posts:post_unlike' post.id %}" style="text-decoration: none;"> ❤ </a>
-            {% endif %}
+              <button onclick ="likeUnlike(this, '{% url 'posts:like' post.id %}', '{% url 'posts:unlike' post.id %}', 'like_{{post.id}}')"> 
+                {% if not post.is_like %}
+                  🤍 
+                {% else %}
+                  ❤ 
+                {% endif %}
+              </button>
             {% endif %}
             </li>
             <li>

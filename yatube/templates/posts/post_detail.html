@@ -28,15 +28,20 @@
                   Всего постов автора: {{ posts_count }}
                 </li>
                 <li class="list-group-item">
-                  Понравилось: {{likes}} 
+                  Понравилось: 
+                  <div id="likes">
+                    {{likes}}
+                  </div>
                   {% if not user.is_authenticated %}
                     🤍
                   {% else %} 
-                    {% if not now_liker %}
-                      <a href="{% url 'posts:post_like' post.id %}" style="text-decoration: none;"> 🤍 </a>
-                    {% else %}
-                      <a href="{% url 'posts:post_unlike' post.id %}" style="text-decoration: none;"> ❤ </a>
-                    {% endif %}
+                    <button onclick ="likeUnlike(this, '{% url 'posts:like' post.id %}', '{% url 'posts:unlike' post.id %}', 'likes')"> 
+                      {% if not now_liker %}
+                        🤍 
+                      {% else %}
+                        ❤ 
+                      {% endif %}
+                    </button>         
                   {% endif %}
                 </li>
                 <li class="list-group-item">
