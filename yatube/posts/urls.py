@@ -31,26 +31,18 @@ urlpatterns = [
         name='profile_unfollow'
     ),
     path('like/', views.like_index, name='like_index'),
+
     path(
         'posts/<int:post_id>/like/',
-        views.post_like,
-        name='post_like'
-    ),
-    path(
-        'posts/<int:post_id>/like_new/',
         views.like,
         name='like'
     ),
     path(
-        'posts/<int:post_id>/unlike_new/',
+        'posts/<int:post_id>/unlike/',
         views.unlike,
         name='unlike'
     ),
-    path(
-        'posts/<int:post_id>/unlike/',
-        views.post_unlike,
-        name='post_unlike'
-    ),
+
    path('search/', views.search_results, name='search_results'),
 
 ]

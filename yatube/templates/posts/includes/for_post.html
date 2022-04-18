@@ -17,19 +17,25 @@
             {% endif %}                     
             <li>
               Понравилось: 
-              <div id="like_{{post.id}}">
+              <span id="like_{{post.id}}">
                 {{ post.likes.count }}
-              </div>
+              </span>
               {% if not user.is_authenticated %}
                 💙
               {% else %}
-              <button onclick ="likeUnlike(this, '{% url 'posts:like' post.id %}', '{% url 'posts:unlike' post.id %}', 'like_{{post.id}}')"> 
-                {% if not post.is_like %}
-                  🤍 
-                {% else %}
-                  ❤ 
-                {% endif %}
-              </button>
+              <span style="vertical-align: 10%">
+                <button type="button" 
+                  class="btn btn-link" 
+                  onclick ="likeUnlike(this, '{% url 'posts:like' post.id %}', '{% url 'posts:unlike' post.id %}', 'like_{{post.id}}')"
+                  style="text-decoration: none; box-shadow: none !important;"
+                > 
+                  {% if not post.is_like %}
+                    🤍 
+                  {% else %}
+                    ❤ 
+                  {% endif %}
+                </button>
+              </span>
             {% endif %}
             </li>
             <li>

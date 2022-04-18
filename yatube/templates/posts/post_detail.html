@@ -29,19 +29,25 @@
                 </li>
                 <li class="list-group-item">
                   Понравилось: 
-                  <div id="likes">
+                  <span id="likes">
                     {{likes}}
-                  </div>
+                  </span>
                   {% if not user.is_authenticated %}
                     🤍
                   {% else %} 
-                    <button onclick ="likeUnlike(this, '{% url 'posts:like' post.id %}', '{% url 'posts:unlike' post.id %}', 'likes')"> 
-                      {% if not now_liker %}
-                        🤍 
-                      {% else %}
-                        ❤ 
-                      {% endif %}
-                    </button>         
+                  <span style="vertical-align: 10%">
+                    <button type="button" 
+                      class="btn btn-link" 
+                      onclick ="likeUnlike(this, '{% url 'posts:like' post.id %}', '{% url 'posts:unlike' post.id %}', 'likes')"
+                      style="text-decoration: none; box-shadow: none !important;"
+                    >
+                        {% if not now_liker %}
+                          🤍 
+                        {% else %}
+                          ❤ 
+                        {% endif %}
+                    </button>   
+                  </span>      
                   {% endif %}
                 </li>
                 <li class="list-group-item">

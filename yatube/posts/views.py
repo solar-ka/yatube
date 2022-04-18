@@ -195,14 +195,7 @@ def profile_unfollow(request, username):
         follow.delete()
     return redirect('posts:profile', username=username)
 
-@login_required
-def post_like(request, post_id):
-    user = request.user
-    post = get_object_or_404(Post, id=post_id)
-    now_liker = Like.objects.filter(user=user, post=post).exists()
-    if not now_liker:
-        Like.objects.create(user=user, post=post)
-    return redirect('posts:post_detail', post_id=post_id)
+
 
 @login_required
 def like(request, post_id):
@@ -222,16 +215,6 @@ def unlike(request, post_id):
         like = Like.objects.get(user=user, post=post)
         like.delete()
     return JsonResponse(Like.objects.filter(post=post).count(), safe=False)
-
-@login_required
-def post_unlike(request, post_id):
-    user = request.user
-    post = get_object_or_404(Post, id=post_id)
-    now_liker = Like.objects.filter(user=user, post=post).exists()
-    if now_liker:
-        like = Like.objects.get(user=user, post=post)
-        like.delete()
-    return redirect('posts:post_detail', post_id=post_id)
 
 
 
