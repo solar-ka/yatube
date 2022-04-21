@@ -35,7 +35,7 @@
                   {% if not user.is_authenticated %}
                     🤍
                   {% else %} 
-                  <span style="vertical-align: 10%">
+                  <span style="vertical-align: 7%">
                     <button type="button" 
                       class="btn btn-link" 
                       onclick ="likeUnlike(this, '{% url 'posts:like' post.id %}', '{% url 'posts:unlike' post.id %}', 'likes')"
@@ -89,46 +89,7 @@
                 </div>
               </div>
             </article> 
-              {% if user.is_authenticated %}
-              <div class="card my-4">
-                <h5 class="card-header">Добавить комментарий:</h5>
-                <div class="card-body">
-                  <form method="post" action="{% url 'posts:add_comment' post.id %}">
-                    {% csrf_token %}
-                    <div class="form-group mb-2">{{ form.text|addclass:"form-control" }}
-                      <small id="{{ form.text.id_for_label }}-help" class="form-text text-muted">
-                        {{ form.text.help_text|safe }}
-                      </small>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Отправить</button>
-                  </form>
-                </div>
-              </div>
-              {% endif %}
-              <h5>
-                {% if comments %}
-                Комментарии:  
-                {% else %}
-                К данному посту пока нет ни одного комментария. Ваш может стать первым :)
-                {% endif %}
-              </h5>
-    
-              {% for comment in comments %}
-              <div class="media mb-4">
-                <div class="media-body">
-                  <div class="container py-1 border">
-                    <h5 class="mt-0">
-                      <a href="{% url 'posts:profile' comment.author.username %}">{{ comment.author.username }}</a>
-                    </h5>
-                    <p>
-                      {{ comment.text }} <br>  
-                      <i> {{ comment.created }} </i>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            </article>
+            {% include 'posts/includes/comments.html' %}
           </div>
         </div>
 {% endblock %}
