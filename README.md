@@ -1,6 +1,5 @@
 # backend_community_homework
 # Yatube
-Социальная сеть для блогеров
 ![Yatube](https://blogger.googleusercontent.com/img/a/AVvXsEiEETHLd5rBb04YhKUlu_zhQiHd12xRQQbxn3z916wba8XxGexQ4J7Cdlj0Lma38MHeu-G55vIey7t3y7X1f2mc1xuDk_UsY3VMn5Fw38sEURzHhMzV5e5htb6ONIegP3eevcpkjejwez6Zci9VCUBaZPR7u3F7MnCdsQhY6DThcXwTXluqMoE2CBXFQA=w640-h350)
 ## _Социальная сеть для блогеров_
 
